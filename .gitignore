@@ -105,3 +105,12 @@ venv.bak/
 
 # Emacs
 *~
+
+# vim
+*.swp
+
+# idea
+/.idea
+
+# OSX
+**/.DS_Store
