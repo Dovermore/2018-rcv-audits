@@ -262,7 +262,7 @@ def rcv_round(L, tie_breaker):
     return (None, d, e, LL)
 
 
-def rcv_winner(L, tie_breaker, printing_wanted=True):
+def rcv_winner(L, tie_breaker, printing_wanted=False):
     """
     Return RCV (aka IRV) winner for ballot list L.
 

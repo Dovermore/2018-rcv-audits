@@ -308,6 +308,7 @@ def clean(tally):
     tally = delete_undervotes(tally)
     return tally
 
+
 def read_ME_data(filename, printing_wanted=False):
     """
     Read CSV file and return tally with counts for ballots.

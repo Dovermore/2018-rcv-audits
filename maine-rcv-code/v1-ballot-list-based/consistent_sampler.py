@@ -1,4 +1,5 @@
-"""Module to provide random sample from finite collections of
+"""
+Module to provide random sample from finite collections of
 objects, using sampling with replacement or sampling without
 replacement.
 

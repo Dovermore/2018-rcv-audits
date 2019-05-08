@@ -169,8 +169,7 @@ def dirichlet_multinomial(sample_tally, total_num_votes, rs):
 
     pseudocount_for_prior = 1
     sample_with_prior = deepcopy(sample_tally)
-    sample_with_prior = [k + pseudocount_for_prior
-                         for k in sample_with_prior]
+    sample_with_prior = [k + pseudocount_for_prior for k in sample_with_prior]
 
     gamma_sample = [rs.gamma(k) for k in sample_with_prior]
     gamma_sample_sum = float(sum(gamma_sample))
@@ -184,8 +183,8 @@ def dirichlet_multinomial(sample_tally, total_num_votes, rs):
 def generate_nonsample_tally(sample_tally, total_num_votes, seed):
     """
     Given a sample_tally, the total number of votes in an election, and a seed,
-    generate the nonsample tally in the election using the Dirichlet multinomial
-    distribution.
+    generate the nonsample tally in the election using the Dirichlet
+    multinomial distribution.
 
     Input Parameters:
 
@@ -228,7 +227,8 @@ def plurality_winner(candidate_names, tallies, vote_for_n):
     
 
 def compute_winner(sample_tallies, total_num_votes, vote_for_n,
-                   seed, candidate_names, voting_method = plurality_winner ,  pretty_print=False):
+                   seed, candidate_names, voting_method=plurality_winner,
+                   pretty_print=False):
     """
     Given a list of sample tallies (one sample tally per county)
     a list giving the total number of votes cast in each county,
@@ -419,9 +419,8 @@ def compute_win_probs_rcv(sample_tallies,
     representation of the number of trials that candidate i has won
     out of the num_trials simulations.
     """
-
     num_candidates = len(unique_ballots)
-    win_count =  {name : 0 for name in real_names} 
+    win_count = {name: 0 for name in real_names}
     for i in range(num_trials):
         # We want a different seed per trial.
         # Adding i to seed caused correlations, as numpy apparently
@@ -430,7 +429,8 @@ def compute_win_probs_rcv(sample_tallies,
         winner = compute_winner(sample_tallies,
                                 total_num_votes,
                                 vote_for_n,
-                                seed_i, unique_ballots, voting_method=rcv_wrapper)
+                                seed_i, unique_ballots,
+                                voting_method=rcv_wrapper)
         win_count[winner] = win_count[winner] + 1
     total_count = float(sum(win_count.values()))
     name_map = {}

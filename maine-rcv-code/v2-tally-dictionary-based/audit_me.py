@@ -13,6 +13,9 @@ import rcv
 import numpy as np
 import time
 import pandas as pd
+import sys
+import os
+from os import path
 
 hash_count = 0
 
@@ -54,40 +57,42 @@ def get_candidates(tally):
             candidate_names.add(name)
     return list(candidate_names)
 
-def get_ballot_list():
-    votes_dir = "../../maine-rcv-data/"
-    votes_filename = votes_dir + 'me_votes.csv'
-    tally = rcv.read_ME_data(votes_filename, False)
+def get_ballot_list(votes_dir="../../maine-rcv-data/",
+                    votes_filename='me_votes.csv'):
+    votes_filename = path.join(votes_dir, votes_filename)
+    tally = rcv.read_ME_data(votes_filename, True)
     n = sum(tally.values())
     L = rcv.convert_tally_to_ballots(tally)
-    return n,L
+    return n, L
 
 #TODO(zarap): refactor to make faster
-def get_sub_sample_tally(sample_size,sample_order):
+def get_sub_sample_tally(sample_size,sample_order, L):
     sample = [L[sample_order[i]] for i in range(sample_size)]
     sample_tally = rcv.convert_ballots_to_tally(sample)
     return sample_tally
 
-def audit(simulations = 1000):
+
+def audit(simulations=1000, votes_dir="../../maine-rcv-data/",
+          votes_filename='me_votes.csv',
+          output_file="audit_simulations.csv"):
     data = []
-    n,L = get_ballot_list()
+    n, L = get_ballot_list(votes_dir, votes_filename)
     vote_for_n = 1
     num_trials = 1000
-    output_file = "audit_simulations_vs_2.csv" 
-    print("simulations: %d n: %d " % (num_trials,n))
-    #sample size
-    for seed in range(1,simulations+1):
+    print("simulations: %d n: %d " % (num_trials, n))
+    # sample size
+    for seed in range(1, simulations+1):
         sample_order = list(sampler(range(n), with_replacement=False,
                             output='id', seed=seed))
         for sample_size in range(100, 3001, 100):
-            print("seed: %d"%seed)
+            print("seed: %d" % seed)
             start = time.time()
-            sample_tally = get_sub_sample_tally(sample_size,sample_order)
+            sample_tally = get_sub_sample_tally(sample_size, sample_order, L)
             tie_breaker = [] 
             real_names = get_candidates(sample_tally)
             unique_ballots = list(sample_tally.keys())
             time_delta = time.time() - start
-            sample_tallies = [[ sample_tally[name]  for name  in unique_ballots ],]
+            sample_tallies = [[sample_tally[name] for name in unique_ballots],]
             win_probs = bptool.compute_win_probs_rcv(sample_tallies,
                               [n], 
                               seed,
