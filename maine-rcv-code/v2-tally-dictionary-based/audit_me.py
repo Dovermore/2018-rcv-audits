@@ -74,7 +74,8 @@ def get_sub_sample_tally(sample_size,sample_order, L):
 
 def audit(simulations=1000, votes_dir="../../maine-rcv-data/",
           votes_filename='me_votes.csv',
-          output_file="audit_simulations.csv"):
+          output_file="audit_simulations.csv",
+          lo=100, hi=3000, step=100):
     data = []
     n, L = get_ballot_list(votes_dir, votes_filename)
     vote_for_n = 1
@@ -84,7 +85,7 @@ def audit(simulations=1000, votes_dir="../../maine-rcv-data/",
     for seed in range(1, simulations+1):
         sample_order = list(sampler(range(n), with_replacement=False,
                             output='id', seed=seed))
-        for sample_size in range(100, 3001, 100):
+        for sample_size in range(lo, hi+1, step):
             print("seed: %d" % seed)
             start = time.time()
             sample_tally = get_sub_sample_tally(sample_size, sample_order, L)

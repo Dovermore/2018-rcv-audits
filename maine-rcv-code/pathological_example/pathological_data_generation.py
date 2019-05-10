@@ -46,13 +46,12 @@ class PathologicalVoteGenerator:
 if __name__ == '__main__':
     num_candidates = 4
 
-    actual_winner_vote = 5000
-    actual_loser_vote = 2499
-    actual_cross_vote = 2500
-
-    reported_winner_vote = 4998
-    reported_loser_vote = 4998
-    reported_cross_vote = 4998
+    actual_winner_vote = 100
+    actual_loser_vote = 50
+    actual_cross_vote = 49
+    lo = 10
+    hi = 190
+    step = 10
 
     pvg = PathologicalVoteGenerator(num_candidates,
                                     winner_vote=actual_winner_vote,
@@ -62,16 +61,8 @@ if __name__ == '__main__':
         f"{actual_loser_vote:05}{actual_cross_vote:05}"
     pvg(actual_file+".csv")
 
-    pvg = PathologicalVoteGenerator(num_candidates,
-                                    winner_vote=reported_winner_vote,
-                                    loser_vote=reported_loser_vote,
-                                    cross_vote=reported_cross_vote)
-
-    reported_file = f"reported_{num_candidates:03}{reported_winner_vote:05}" \
-        f"{reported_loser_vote:05}{reported_cross_vote:05}"
-    pvg(reported_file+".csv")
-
     from audit_me import audit
 
-    audit(1000, os.getcwd(), actual_file+".csv",
-          output_file=f"audit_{actual_file}.csv")
+    audit(10, os.getcwd(), actual_file+".csv",
+          output_file=f"audit_{actual_file}.csv",
+          lo=lo, hi=hi, step=step)
