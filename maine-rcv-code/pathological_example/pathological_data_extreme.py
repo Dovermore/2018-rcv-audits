@@ -44,3 +44,5 @@ if __name__ == "__main__":
                 line = str(index) + "," + split[1]
                 index += 1
                 add_file.write(line)
+
+    os.remove(tmp_file)
