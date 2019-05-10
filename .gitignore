@@ -110,7 +110,9 @@ venv.bak/
 *.swp
 
 # idea
-/.idea
+.idea
 
 # OSX
-**/.DS_Store
+.DS_Store
+
+
